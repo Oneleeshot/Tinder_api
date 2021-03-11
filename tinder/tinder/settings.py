@@ -13,16 +13,20 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+
+env = os.environ.Env()
+env.read_env(env.str('ENV_PATH', '.env'))
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'wmzm*42+@1%7_qvm9qoz#&$54a&&6825*e&i@gs!iu#$_0c%jl'
+SECRET_KEY = env.str('SECRET_KEY', '1')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = env.bool('DEBUG', False)
 
 ALLOWED_HOSTS = []
 
@@ -78,10 +82,10 @@ WSGI_APPLICATION = 'tinder.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'tinder',
-        'USER': 'tinderuser',
-        'PASSWORD': 'password',
-        'HOST': '127.0.0.1',
+        'NAME': env.str('DATABASE_NAME'),
+        'USER': env.str('USER'),
+        'PASSWORD': env.str('PASSWORD'),
+        'HOST': env.str('HOST'),
         'PORT': '5432',
     }
 }

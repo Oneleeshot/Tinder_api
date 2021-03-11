@@ -1,11 +1,15 @@
+from enum import Enum
 from django.contrib.auth.models import User
 from django.db import models
+from django_enum_choices.fields import EnumChoiceField
 
-TYPE_SUBSCRIPTIONS = (
-    ('standard', 'standard'),
-    ('vip', 'vip'),
-    ('premium', 'premium')
-)
+
+class MyEnumSubscription(Enum):
+    standard = 'standard'
+    vip = 'vip'
+    premium = 'premium'
+
+
 OPTIONS_SUBSCRIPTIONS = {
     'standard': {'swipes': 20,
                  'radius': 10},
@@ -15,9 +19,7 @@ OPTIONS_SUBSCRIPTIONS = {
 
 
 class UserSubscription(models.Model):
-    type_subscription = models.CharField(max_length=100,
-                                         choices=TYPE_SUBSCRIPTIONS,
-                                         default='standard')
+    type_subscription = EnumChoiceField(MyEnumSubscription)
     swipes = models.IntegerField(null=True)
     radius = models.IntegerField(null=True)
 
